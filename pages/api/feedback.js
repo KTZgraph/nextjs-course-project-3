@@ -1,6 +1,17 @@
 import fs from "fs";
 import path from "path";
 
+//helper fuinction żeby nie duplikować kodu
+function buildFeedbackPath() {
+  return path.join(process.cwd(), "data", "feedback.json"); //process.cwd() current workind directory dla nextjs to root
+}
+
+function extractFeedback(filePath) {
+  const fileData = fs.readFileSync(filePath);
+  const data = JSON.parse(fileData); //wiem, że to pusta lista bo jestem właścicielem pliku
+  return data;
+}
+
 // nie eksportujemy komponentów reacta
 //nazwa to z reguły handler because we handle request
 function handler(req, res) {
@@ -16,10 +27,11 @@ function handler(req, res) {
     };
 
     //stroe it in database or file - tutaj zapis do /data/feedback.json
-    const filePath = path.join(process.cwd(), "data", "feedback.json"); //process.cwd() current workind directory dla nextjs to root
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+
     // czytam synchronicznie plik - blokuję a potem aktualizuję dane
-    const fileData = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData); //wiem, że to pusta lista bo jestem właścicielem pliku
+
     data.push(newFeedback);
     //zapisuję synchronicznie - blokuję zmienione dane do pliku tylko do jsona z obiektu zamieniamiam
     fs.writeFileSync(filePath, JSON.stringify(data));
@@ -28,7 +40,10 @@ function handler(req, res) {
   } else {
     //bo inaczej wysle dwie odpowiedzi a to powadzi do problemów
     //odpwoeidź z obiektem res
-    res.status(200).json({ message: "This works!" });
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+
+    res.status(200).json({ feedback: data });
   }
 }
 

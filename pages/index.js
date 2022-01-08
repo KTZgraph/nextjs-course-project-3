@@ -1,6 +1,9 @@
-import { useRef } from "react"; //referencje żeby pobrać dane z inputów
+import { useRef, useState } from "react"; //referencje żeby pobrać dane z inputów
 
 function HomePage() {
+  // stan do zwrotki listy feedbacków z API
+  const [feedbackItems, setFeedbackItems] = useState([]);
+
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
 
@@ -23,9 +26,15 @@ function HomePage() {
         //explicit mówic że jsona wysyłam
         "Content-Type": "application/json",
       },
-    })//.then bo fetch zwraca Promise
+    }) //.then bo fetch zwraca Promise
       .then((response) => response.json())
       .then((data) => console.log(data)); //można coś zrobić ze zwrotką
+  }
+
+  function loadFeedbackHandler() {
+    fetch("/api/feedback") // po prostu GET żadanie
+      .then((response) => response.json())
+      .then((data) => setFeedbackItems(data.feedback)); //można coś zrobić ze zwrotką
   }
 
   return (
@@ -42,6 +51,13 @@ function HomePage() {
         </div>
         <button>Send Feedback</button>
       </form>
+      <hr />
+      <button onClick={loadFeedbackHandler}>Load Feedback</button>
+      <ul>
+        {feedbackItems.map((item) => (
+          <li key={item.id}>{item.text}</li>
+        ))}
+      </ul>
     </div>
   );
 }
