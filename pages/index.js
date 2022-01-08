@@ -10,6 +10,7 @@ function HomePage() {
     const enteredEmail = emailInputRef.current.value; //wartosc inputu
     const enteredFeedback = feedbackInputRef.current.value; //wartosc feedback
 
+    fetch(); //POST {email: 'te@te.com;, text: 'Some feedack'}
 
   }
   return (
