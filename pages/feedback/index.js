@@ -1,20 +1,36 @@
+import { Fragment, useState } from "react";
+
 import { buildFeedbackPath, extractFeedback } from "../api/feedback"; // nie będzie umieszczony kod po stronie klienta w bundle
 
 function FeedbackPage(props) {
-  function loadFeedbackHandler(id) {
+  const [feedbackData, setFeedbackData] = useState();
 
+  function loadFeedbackHandler(id) {
+    // używac tylko jak potrzeba api do pobrani ajakiś dodatkowych danych - jak one już są to bez sensu robić requesty dodatkowe - lepiej przekkazać tylko dane między komponentami
+    fetch(`/api/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // jak dostanie obiekt zamiast pojedynczego np. stringa o bład [Error: Objects are not valid as a React child]
+        setFeedbackData(data.feedback.email);
+      }); //api/some-feedback-id
   }
 
   return (
-    <ul>
-      {props.feedbackItems.map((item) => (
-        <li key={item.id}>
-          {item.text}
-          {/* mojaFunckja.bind(cośCojestThis, wartoscDlaPierwszegoArgumentu) */}
-          <button onClick={loadFeedbackHandler.bind(null, item.id)}>Show details</button>
-        </li>
-      ))}
-    </ul>
+    <Fragment>
+      {/* warunkowo wyświetlane dane */}
+      {feedbackData && <p>{feedbackData}</p>}
+      <ul>
+        {props.feedbackItems.map((item) => (
+          <li key={item.id}>
+            {item.text}
+            {/* mojaFunckja.bind(cośCojestThis, wartoscDlaPierwszegoArgumentu) */}
+            <button onClick={loadFeedbackHandler.bind(null, item.id)}>
+              Show details
+            </button>
+          </li>
+        ))}
+      </ul>
+    </Fragment>
   );
 }
 
