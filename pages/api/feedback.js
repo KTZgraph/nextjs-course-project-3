@@ -1,5 +1,8 @@
 import fs from "fs";
 import path from "path";
+// next.js priorytezuje endpoity
+// /api w urlu NIE BIERZE DO URLA NAZWY PLIKU JAK w /pages
+
 
 // helperty mozna też wydzielić do osobnych plików i/lub folderów np helpers w główym root 
 //helper fuinction żeby nie duplikować kodu

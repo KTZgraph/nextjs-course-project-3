@@ -1,6 +1,5 @@
 // next.js priorytezuje endpoity
-// api/feedback zadziała bo drugi segment feedback jest traktowany jak konkretna wartość
-// api/some-value
+// tutaj INNE url api/feedback/some-value
 
 import { buildFeedbackPath, extractFeedback } from "./feedback";
 

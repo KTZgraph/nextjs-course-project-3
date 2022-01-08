@@ -1,0 +1,1 @@
+// można skopiowac plik /api/feedback.js i teraz będzie w url /api/feedback

@@ -7,7 +7,7 @@ function FeedbackPage(props) {
 
   function loadFeedbackHandler(id) {
     // używac tylko jak potrzeba api do pobrani ajakiś dodatkowych danych - jak one już są to bez sensu robić requesty dodatkowe - lepiej przekkazać tylko dane między komponentami
-    fetch(`/api/${id}`)
+    fetch(`/api/${id}`) //trzeba wtedy aktulizacować url jak inaczej foldery w /api/feedback trzymam pliki
       .then((response) => response.json())
       .then((data) => {
         // jak dostanie obiekt zamiast pojedynczego np. stringa o bład [Error: Objects are not valid as a React child]

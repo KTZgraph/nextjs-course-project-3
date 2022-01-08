@@ -1,0 +1,1 @@
+// tak samo jak przy stronach łapie /api/some-value-more-segments
