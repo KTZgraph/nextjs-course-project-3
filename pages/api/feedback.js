@@ -1,12 +1,13 @@
 import fs from "fs";
 import path from "path";
 
+// helperty mozna też wydzielić do osobnych plików i/lub folderów np helpers w główym root 
 //helper fuinction żeby nie duplikować kodu
-function buildFeedbackPath() {
+export function buildFeedbackPath() { // zeby gettaticProps i getServerProps w/pages miały dostep do funckji
   return path.join(process.cwd(), "data", "feedback.json"); //process.cwd() current workind directory dla nextjs to root
 }
 
-function extractFeedback(filePath) {
+export function extractFeedback(filePath) { // zeby gettaticProps i getServerProps w/pages miały dostep do funckji
   const fileData = fs.readFileSync(filePath);
   const data = JSON.parse(fileData); //wiem, że to pusta lista bo jestem właścicielem pliku
   return data;
